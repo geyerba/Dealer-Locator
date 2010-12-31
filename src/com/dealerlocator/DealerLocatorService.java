@@ -15,6 +15,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * 
+ * @author dad
+ *
+ */
 public class DealerLocatorService {
 	public List<Coordinate> findClosestDealerForZip(HttpHost target, String zip) {
 		String paramBase = "/dealerlocator/restService/V1/address/us/1/en///";
