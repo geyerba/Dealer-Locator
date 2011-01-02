@@ -17,7 +17,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * 
- * @author dad
+ * @author geyerba
  *
  */
 public class DealerLocatorService {

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.dealerlocator;
 
 public class Coordinate {
