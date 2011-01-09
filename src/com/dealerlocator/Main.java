@@ -24,7 +24,7 @@ public class Main extends MapActivity {
 	MapView mapView;
 	List<Overlay> mapOverlays;
 	Drawable drawable;
-	HelloItemizedOverlay itemizedOverlay;
+	DealerLocatorItemizedOverlay itemizedOverlay;
 	private LocationManager locationManager;
 
 	@Override
@@ -44,8 +44,9 @@ public class Main extends MapActivity {
 
 		mapOverlays = mapView.getOverlays();
 		drawable = this.getResources().getDrawable(R.drawable.map_pin);
-		itemizedOverlay = new HelloItemizedOverlay(drawable, this);
-
+		//itemizedOverlay = new HelloItemizedOverlay(drawable, this);
+		itemizedOverlay = new DealerLocatorItemizedOverlay(drawable,this);
+		
 		// this would be for getting location from the embedded gps
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,

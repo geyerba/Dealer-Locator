@@ -3,29 +3,38 @@ package com.dealerlocator;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.widget.Toast;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-public class HelloItemizedOverlay extends ItemizedOverlay {
+public class DealerLocatorItemizedOverlay extends ItemizedOverlay {
 	private Activity THE_ACTIVITY;
+	private Context CONTEXT;
 	Coordinate selectedMapCoordinate;
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 
-	public HelloItemizedOverlay(Drawable defaultMarker) {
+	public DealerLocatorItemizedOverlay(Drawable defaultMarker) {
 		super(boundCenterBottom(defaultMarker));
 	}
-	
+
 	/**
-	 * This isn't the right way of passing this reference.
+	 * This isn't the right way of passing a reference to the Activity, but this would be needed for Toast.
+	 * 
 	 * @param defaultMarker
-	 * @param theActivity
+	 * @param theActivity¯
 	 */
-	public HelloItemizedOverlay(Drawable defaultMarker, Activity theActivity){
+//	public HelloItemizedOverlay(Drawable defaultMarker, Activity theActivity) {
+//		this(defaultMarker);
+//		THE_ACTIVITY = theActivity;
+//	}
+	
+	public DealerLocatorItemizedOverlay(Drawable defaultMarker, Context theContext){
 		this(defaultMarker);
-		THE_ACTIVITY = theActivity;
+		CONTEXT = theContext;
+		
 	}
 
 	@Override
@@ -48,9 +57,19 @@ public class HelloItemizedOverlay extends ItemizedOverlay {
 
 	@Override
 	protected boolean onTap(int index) {
+		// ** This impl uses a custom dialog.
 		OverlayItem item = mOverlays.get(index);
-		Toast.makeText(THE_ACTIVITY, item.getTitle(), Toast.LENGTH_SHORT).show();
+		AlertDialog.Builder dialog = new AlertDialog.Builder(CONTEXT);
+		dialog.setTitle(item.getTitle());
+		dialog.setMessage(item.getSnippet());
+		dialog.show();
 		return true;
+
+		/** This one uses Toast, which seems limited **/
+		// OverlayItem item = mOverlays.get(index);
+		// Toast.makeText(THE_ACTIVITY, item.getTitle(),
+		// Toast.LENGTH_SHORT).show();
+		// return true;
 	}
 
 	// @Override
@@ -119,5 +138,4 @@ public class HelloItemizedOverlay extends ItemizedOverlay {
 	//
 	// }
 
-	
 }
