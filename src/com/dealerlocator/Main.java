@@ -4,16 +4,16 @@ import java.util.List;
 
 import org.apache.http.HttpHost;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.dealerlocator.R;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
@@ -44,9 +44,9 @@ public class Main extends MapActivity {
 
 		mapOverlays = mapView.getOverlays();
 		drawable = this.getResources().getDrawable(R.drawable.map_pin);
-		//itemizedOverlay = new HelloItemizedOverlay(drawable, this);
-		itemizedOverlay = new DealerLocatorItemizedOverlay(drawable,this);
-		
+		// itemizedOverlay = new HelloItemizedOverlay(drawable, this);
+		itemizedOverlay = new DealerLocatorItemizedOverlay(drawable, this);
+
 		// this would be for getting location from the embedded gps
 		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
@@ -75,6 +75,10 @@ public class Main extends MapActivity {
 							GeoPoint p = new GeoPoint((int) lat * 1000000,
 									(int) lng * 1000000);
 							mapView.getController().animateTo(p);
+							Toast.makeText(mapView.getContext(),
+									"GPS location updated.",
+									Toast.LENGTH_SHORT).show();
+
 						}
 
 					}
@@ -119,15 +123,16 @@ public class Main extends MapActivity {
 		for (Coordinate coordinate : theClosestCoordinates) {
 			GeoPoint point = new GeoPoint(coordinate.getxValueMicroDeg(),
 					coordinate.getyValueMicroDeg());
-			OverlayItem overlayitem = new OverlayItem(point, coordinate
-					.getDealerName(), coordinate.getAddress());
+			OverlayItem overlayitem = new OverlayItem(point,
+					coordinate.getDealerName(), coordinate.getAddress()+"\n"+coordinate.getPhoneNumber());
 			itemizedOverlay.addOverlay(overlayitem);
 		}
 
 		mapOverlays.clear();
 		mapOverlays.add(itemizedOverlay);
 		// just grab one at random to serve as the point to zoom in to.
-		mapView.getController().animateTo(itemizedOverlay.getItem(1).getPoint());
+		mapView.getController()
+				.animateTo(itemizedOverlay.getItem(1).getPoint());
 		mapView.getController().setZoom(7);
 		mapView.invalidate();
 

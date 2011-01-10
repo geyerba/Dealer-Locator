@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 /**
  * 
  * @author geyerba
- *
+ * 
  */
 public class DealerLocatorService {
 	public List<Coordinate> findClosestDealerForZip(HttpHost target, String zip) {
@@ -70,6 +70,20 @@ public class DealerLocatorService {
 								nextCoord.setState(value);
 							} else if ("zip".equals(node.getNodeName())) {
 								nextCoord.setZip(value);
+							} else if ("phoneNumbers"
+									.equals(node.getNodeName())) {
+								NodeList phoneNumberNodes = node
+										.getChildNodes();
+								for (int k = 0; k < phoneNumberNodes
+										.getLength(); k++) {
+									Node nextPhoneNumberNode = phoneNumberNodes
+											.item(k);
+									String nextPhoneNumberValue = this
+											.getNodeValue(nextPhoneNumberNode);
+									nextCoord
+											.setPhoneNumber(nextPhoneNumberValue);
+
+								}
 							}
 						}
 						retVal.add(nextCoord);

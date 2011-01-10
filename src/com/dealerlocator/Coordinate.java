@@ -1,5 +1,5 @@
 /*
- * 
+ * Just a data structure for holding coordinate info.
  */
 package com.dealerlocator;
 
@@ -10,6 +10,14 @@ public class Coordinate {
 	private String address;
 	private String city;
 	private String state;
+	private String phoneNumber;
+	
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 	public String getDealerName() {
 		return dealerName;
 	}
