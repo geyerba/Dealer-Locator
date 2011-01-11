@@ -35,14 +35,12 @@ public class DealerLocatorService {
 		// build the get
 		HttpGet get = new HttpGet(paramBase + zip);
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			HttpEntity entity = client.execute(target, get).getEntity();
 
 			doc = builder.parse(entity.getContent());
-			NodeList dealerLocations = doc
-					.getElementsByTagName("dealerlocation");
+			NodeList dealerLocations = doc.getElementsByTagName("dealerlocation");
 
 			if (dealerLocations != null) {
 				retVal = new ArrayList<Coordinate>();
@@ -70,19 +68,18 @@ public class DealerLocatorService {
 								nextCoord.setState(value);
 							} else if ("zip".equals(node.getNodeName())) {
 								nextCoord.setZip(value);
-							} else if ("phoneNumbers"
-									.equals(node.getNodeName())) {
-								NodeList phoneNumberNodes = node
-										.getChildNodes();
-								for (int k = 0; k < phoneNumberNodes
-										.getLength(); k++) {
-									Node nextPhoneNumberNode = phoneNumberNodes
-											.item(k);
-									String nextPhoneNumberValue = this
-											.getNodeValue(nextPhoneNumberNode);
-									nextCoord
-											.setPhoneNumber(nextPhoneNumberValue);
+							} else if ("phoneNumbers".equals(node.getNodeName())) {
 
+								NodeList phoneNumberNodes = node.getChildNodes();
+								for (int k = 0; k < phoneNumberNodes.getLength(); k++) {
+									Node nextPhoneNumberNode = phoneNumberNodes.item(k);
+
+									if ("string".equals(nextPhoneNumberNode.getNodeName())) {
+
+										String nextPhoneNumberValue = this.getNodeValue(nextPhoneNumberNode);
+										nextCoord.setPhoneNumber(nextPhoneNumberValue);
+
+									}
 								}
 							}
 						}
